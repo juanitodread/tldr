@@ -17,6 +17,8 @@ db.once('open', function() {
 
 const ArticleSchema = new Schema({
   title: String,
+  content: String,
+  url: String,
   created: {type: Date, default: Date.now}
 });
 

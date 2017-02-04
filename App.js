@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const read = require('node-readability');
 const ArticlesDao = require('./model/ArticlesDao');
 const app = express();
 
@@ -14,10 +15,23 @@ app.get('/articles', (req, res, next) => {
 });
 
 app.post('/articles', (req, res, next) => {
-  const article = {title: req.body.title};
-  ArticlesDao.save(article).then(article => {
-    console.log(`New article added: ${JSON.stringify(article)}`);
-    res.send(article);
+  const url = req.body.url;
+  console.log(`Url: ${url}`);
+
+  read(url, (err, result) => {
+    if (err || !result) {
+      res.status(500).send('Error downloading article');
+    }
+
+    const article = {
+      url,
+      title: result.title, 
+      content: result.content,
+    };
+    ArticlesDao.save(article).then(article => {
+      console.log(`New article added: ${JSON.stringify(article)}`);
+      res.send(article);
+    });
   });
 });
 
