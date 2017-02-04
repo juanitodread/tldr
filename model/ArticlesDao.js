@@ -1,21 +1,21 @@
-const articles = [];
+const ArticleModel = require('./ArticleModel');
 
 class ArticleDao {
 
   static getAll() {
-    return articles;
+    return ArticleModel.find({}).exec();
   }
 
   static getById(id) {
-    articles[id];
+    return ArticleModel.findById(id).exec();
   }
 
   static save(article) {
-    articles.push(article);
+    return ArticleModel.create(article);
   }
 
   static delete(id) {
-    delete articles[id];
+    return ArticleModel.remove({_id: id}).exec();
   }
 
 }
