@@ -14,7 +14,7 @@ app.get('/articles', (req, res, next) => {
 app.post('/articles', (req, res, next) => {
   const article = {title: req.body.title};
   ArticlesDao.save(article);
-  console.log(`New article added: ${article}`);
+  console.log(`New article added: ${JSON.stringify(article)}`);
   res.send(article);
 });
 
