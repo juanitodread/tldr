@@ -4,6 +4,8 @@
   "description": "Simple TLDR App",
   "main": "App.js",
   "scripts": {
+    "dev": "nodemon App.js",
+    "start": "node App.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
