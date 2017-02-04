@@ -1,0 +1,10 @@
+<% include head %>
+<h1>Articles</h1>
+<ul>
+  <% articles.forEach(article => { %>
+  <li>
+    <a href="/articles/<%= article.id %>"><%= article.title %> - (<%= article.created %>)</a>
+  </li>
+  <% }) %>
+</ul>
+<% include foot %>

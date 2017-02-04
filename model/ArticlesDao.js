@@ -3,7 +3,9 @@ const ArticleModel = require('./ArticleModel');
 class ArticleDao {
 
   static getAll() {
-    return ArticleModel.find({}).exec();
+    return ArticleModel.find({})
+                       .sort({created: -1})
+                       .exec();
   }
 
   static getById(id) {
