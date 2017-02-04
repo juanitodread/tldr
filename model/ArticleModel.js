@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-mongoose.connect('mongodb://localhost/tldr');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/tldr');
 
 // Enable debug
 mongoose.set('debug', true);
