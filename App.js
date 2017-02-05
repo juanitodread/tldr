@@ -2,7 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const read = require('node-readability');
 const ArticlesDao = require('./model/ArticlesDao');
+const Util = require('./utils/Util');
+
 const app = express();
+
+// Logger
+const Logger = Util.getLogger();
 
 // Add support for body parser
 app.use(bodyParser.json());
@@ -25,7 +30,7 @@ app.get('/articles', (req, res, next) => {
 
 app.post('/articles', (req, res, next) => {
   const url = req.body.url;
-  console.log(`Url: ${url}`);
+  Logger.info(`Url: ${url}`);
 
   read(url, (err, result) => {
     if (err || !result) {
@@ -38,7 +43,7 @@ app.post('/articles', (req, res, next) => {
       content: result.content,
     };
     ArticlesDao.save(article).then(article => {
-      console.log(`New article added: ${JSON.stringify(article)}`);
+      Logger.info(`New article added: ${JSON.stringify(article)}`);
       res.send(article);
     });
   });
@@ -46,7 +51,7 @@ app.post('/articles', (req, res, next) => {
 
 app.get('/articles/:id', (req, res, next) => {
   const id = req.params.id;
-  console.log(`Fetching id: ${id}`);
+  Logger.info(`Fetching id: ${id}`);
   ArticlesDao.getById(id).then(article => {
     res.format({
       html: () => {
@@ -61,12 +66,15 @@ app.get('/articles/:id', (req, res, next) => {
 
 app.delete('/articles/:id', (req, res, next) => {
   const id = req.params.id;
-  console.log(`Deleting: ${id}`);
+  Logger.info(`Deleting: ${id}`);
   ArticlesDao.delete(id).then(err => {
     res.send({message: 'Deleted'});
   });
 });
 
-app.listen(process.env.PORT || 3000);
+const server = app.listen(process.env.PORT || 3000, () => {
+  let {address, port} = server.address();
+  Logger.info(`Starting server on http://${address}:${port}`);
+});
 
 module.exports = app;

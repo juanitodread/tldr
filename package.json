@@ -16,7 +16,9 @@
     "bootstrap": "^3.3.7",
     "ejs": "^2.5.5",
     "express": "^4.14.1",
+    "jsonwebtoken": "^7.2.1",
     "mongoose": "^4.8.1",
-    "node-readability": "^2.2.0"
+    "node-readability": "^2.2.0",
+    "winston": "^2.3.1"
   }
 }
