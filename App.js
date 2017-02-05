@@ -2,12 +2,19 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const read = require('node-readability');
 const ArticlesDao = require('./model/ArticlesDao');
+const expressConfig = require('./conf/express-conf');
 const Util = require('./utils/Util');
 
 const app = express();
 
 // Logger
 const Logger = Util.getLogger();
+
+// Set content negotiation
+app.use(expressConfig.contentConf);
+
+// Set CORS config
+app.all('/*', expressConfig.corsConf);
 
 // Add support for body parser
 app.use(bodyParser.json());
