@@ -25,7 +25,7 @@ class Util {
   }
 
   static invalidCredentials(req, res, next) {
-    res.status(401).send('Invalid Credentials');
+    res.status(401).send({'error':'Invalid Credentials'});
   }
   
 }

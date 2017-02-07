@@ -34,7 +34,7 @@ class ArticleController {
       };
       ArticlesDao.save(article).then(article => {
         Logger.info(`New article added: ${JSON.stringify(article)}`);
-        res.send(article);
+        res.status(201).send(article);
       });
     });
   }

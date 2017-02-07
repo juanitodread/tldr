@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const Util = require('../../utils/Util');
 const Logger = Util.getLogger();
+const UserDao = require('../../models/UserDao');
 
 const SIGNATURE = 'shhhhh';
 
@@ -19,15 +20,17 @@ class Auth {
   }
 
   static validate(username, pass) {
-    if ('friducha@gmail.com' === username && 'mandameX2' === pass) {
-      return {
-        username,
-        name: 'Frida',
-        role: 'admin',
-      };
-    }
-
-    return null;
+    UserDao.getByUsername(username).then(user => {
+      if (user && user.username === username && user.pass === pass) {
+        return {
+          username: user.username,
+          name: user.name,
+          role: 'admin',
+        };
+      } else {
+        return null;
+      }
+    });
   }
 
   static validateUser() {

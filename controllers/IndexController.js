@@ -1,22 +1,33 @@
 const Auth = require('../utils/security/Auth');
 const Util = require('../utils/Util');
+const UserDao = require('../models/UserDao');
 const Logger = Util.getLogger();
 
 class IndexController {
 
   login(req, res, next) {
     const {username, pass} = req.body;
-    const user = Auth.validate(username, pass);
-    if (!user) {
-      Util.invalidCredentials(req, res, next);
-      return;
-    }
-    Logger.debug(`A new token will be generated for user: ${JSON.stringify(user)}`);
 
-    const token = Auth.generateToken(user);
-    Logger.debug(`Token: ${JSON.stringify(token)}`);
+    UserDao.getByUsername(username).then(user => {
+      if (user && user.username === username && user.pass === pass) {
 
-    res.status(200).send(token);
+        const us = {
+          username: user.username,
+          name: user.name,
+          role: 'admin',
+        };
+
+        Logger.debug(`A new token will be generated for user: ${JSON.stringify(us)}`);
+
+        const token = Auth.generateToken(us);
+        Logger.debug(`Token: ${JSON.stringify(token)}`);
+
+        res.status(200).send(token);
+      } else {
+        Util.invalidCredentials(req, res, next);
+        return;
+      }
+    });
   }
 
   welcome(req, res) {

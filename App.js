@@ -1,8 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const expressConfig = require('./conf/express-conf');
+const mongooseConfig = require('./conf/mongoose-conf').connect();
 const indexRoutes = require('./routes/indexRoutes');
 const articlesRoutes = require('./routes/articlesRoutes');
+const usersRoutes = require('./routes/usersRoutes');
 const AuthFilter = require('./middleware/AuthFilter');
 const Util = require('./utils/Util');
 const Logger = Util.getLogger();
@@ -24,6 +26,7 @@ app.use('/css/bootstrap.css', express.static('node_modules/bootstrap/dist/css/bo
 // Set routes
 app.use('/', indexRoutes);
 app.use('/', articlesRoutes);
+app.use('/', usersRoutes);
 app.use(Util.notFound); // If a not valid URL is requested return not found
 
 const server = app.listen(process.env.PORT || 3000, () => {
