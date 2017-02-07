@@ -15,6 +15,18 @@ class Util {
     });
     return logger;
   }
+
+  static notFound(req, res, next) {
+    res.status(404).send('Not Found');
+  }
+
+  static invalidToken(req, res, next) {
+    res.status(401).send('Invalid Token');
+  }
+
+  static invalidCredentials(req, res, next) {
+    res.status(401).send('Invalid Credentials');
+  }
   
 }
 

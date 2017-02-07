@@ -1,13 +1,9 @@
 const Router = require('express').Router;
 const router = new Router();
+const IndexController = require('../controllers/IndexController');
+const controller = new IndexController();
 
-const welcome = (req, res) => {
-  res.send({
-    api: 'Articles API',
-    message: 'Welcome to the Articles API'
-  });
-};
-
-router.route('/').get(welcome);
+router.route('/').get(controller.welcome);
+router.route('/login').post(controller.login);
 
 module.exports = router;
